@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < splashParticles.Length; i++)
         {
-            // ture¸é continue
+            // tureë©´ continue
             if (splashParticles[i].gameObject.activeSelf) continue;
 
             splashParticles[i].gameObject.SetActive(true);

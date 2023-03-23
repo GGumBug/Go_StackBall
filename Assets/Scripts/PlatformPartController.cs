@@ -27,11 +27,11 @@ public class PlatformPartController : MonoBehaviour
     private void BreakingPart()
     {
         rigidbody.isKinematic   = false;
-        collider.enabled        = false; // ´Ù¸¥ ¿ÀºêÁ§Æ®¿Í Ãæµ¹ÇÏÁö ¾Êµµ·Ï ¼³Á¤
+        collider.enabled        = false; // ë‹¤ë¥¸ ì˜¤ë¸Œì íŠ¸ì™€ ì¶©ëŒí•˜ì§€ ì•Šë„ë¡ ì„¤ì •
 
         Vector3 forcePoint      = transform.parent.position;
         float parentXPosition   = transform.parent.position.x;
-        // ¹Ù¿îµù ¹Ú½ºÀÇ Áß½ÉÀ» ±¸ÇÏ´Â ÄÚµå
+        // ë°”ìš´ë”© ë°•ìŠ¤ì˜ ì¤‘ì‹¬ì„ êµ¬í•˜ëŠ” ì½”ë“œ
         float xPosition         = meshRenderer.bounds.center.x;
     }
 }

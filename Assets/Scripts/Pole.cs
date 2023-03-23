@@ -6,7 +6,7 @@ public class Pole : MonoBehaviour
 {
     private void Start()
     {
-        // ÄÃ·¯ ±×·¹ÀÌ¸¦ Ãß°¡ÇÏ¸é Ã¤µµ°¡ ¶³¾îÁø´Ù.
+        // ì»¬ëŸ¬ ê·¸ë ˆì´ë¥¼ ì¶”ê°€í•˜ë©´ ì±„ë„ê°€ ë–¨ì–´ì§„ë‹¤.
         GetComponent<MeshRenderer>().material.color += Color.gray;
     }
 }

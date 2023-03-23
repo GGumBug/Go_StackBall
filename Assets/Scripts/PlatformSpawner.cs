@@ -5,30 +5,30 @@ using UnityEngine;
 public class PlatformSpawner : MonoBehaviour
 {
     [SerializeField]
-    private PlatformShape[] allPlatforms; // ¸ğµç ÇÃ·§Æû Á¤º¸
+    private PlatformShape[] allPlatforms; // ëª¨ë“  í”Œë«í¼ ì •ë³´
     [SerializeField]
-    private Transform       lastPlatform; // ¸¶Áö¸· ÇÃ·§Æû Á¤º¸
+    private Transform       lastPlatform; // ë§ˆì§€ë§‰ í”Œë«í¼ ì •ë³´
 
 
     public int SpawnPlatforms()
     {
-        // °°Àº ¸ğ¾çÀÇ ÇÃ·§Æû¸¸ Ãâ·ÂµÇµµ·Ï ÇÃ·§Æû ¼Â ¼±ÅÃ
+        // ê°™ì€ ëª¨ì–‘ì˜ í”Œë«í¼ë§Œ ì¶œë ¥ë˜ë„ë¡ í”Œë«í¼ ì…‹ ì„ íƒ
         Transform[] platforms = SetupPlatformFigure();
-        // ÇÃ·§Æû »ı¼º °³¼ö ¼³Á¤
+        // í”Œë«í¼ ìƒì„± ê°œìˆ˜ ì„¤ì •
         int platformCount = SetupPlatformCount();
-        // ¼±ÅÃµÈ ÇÃ·§ÆûµéÀÇ ½ÃÀÛ, Á¾·á ÀÎµ¦½º (³­ÀÌµµ Á¶Àı)
+        // ì„ íƒëœ í”Œë«í¼ë“¤ì˜ ì‹œì‘, ì¢…ë£Œ ì¸ë±ìŠ¤ (ë‚œì´ë„ ì¡°ì ˆ)
         var indexs = SetupStartAndEndIndex(platforms);
 
         for (int i = 0; i < platformCount; i++)
         {
-            // Æ©ÇÃ °ªÀ» È°¿ëÇÏ¿© platforms¾ÈÀÇ platformÁß ÀÓÀÇÀÇ platform »ı¼º
+            // íŠœí”Œ ê°’ì„ í™œìš©í•˜ì—¬ platformsì•ˆì˜ platformì¤‘ ì„ì˜ì˜ platform ìƒì„±
             Transform platform = Instantiate(platforms[Random.Range(indexs.Item1, indexs.Item2)]);
 
-            // »ı¼ºÇÑ ÇÃ·§Æû À§Ä¡ ¹× È¸Àü°ª ¼³Á¤
+            // ìƒì„±í•œ í”Œë«í¼ ìœ„ì¹˜ ë° íšŒì „ê°’ ì„¤ì •
             platform.position = new Vector3(0, -i * 0.5f, 0);
             platform.eulerAngles = new Vector3(0, -i * 5, 0);
 
-            // ¸Å 5¹øÂ° ÇÃ·§Æû¸¶´Ù 50% È®·ü·Î 180µµ ´õ È¸ÀüÇÑ´Ù.
+            // ë§¤ 5ë²ˆì§¸ í”Œë«í¼ë§ˆë‹¤ 50% í™•ë¥ ë¡œ 180ë„ ë” íšŒì „í•œë‹¤.
             if (i != 0 && i % 5 == 0 && Random.Range(0, 2) == 1)
             {
                 platform.eulerAngles += Vector3.up * 180;
@@ -36,13 +36,13 @@ public class PlatformSpawner : MonoBehaviour
 
             platform.SetParent(transform);
         }
-        // ¸¶Áö¸· ÇÃ·§Æû À§Ä¡ ¼³Á¤
+        // ë§ˆì§€ë§‰ í”Œë«í¼ ìœ„ì¹˜ ì„¤ì •
         lastPlatform.position = new Vector3(0, -platformCount * 0.5f, 0);
 
         return platformCount;
     }
 
-    // °°Àº ¸ğ¾çÀÇ ÇÃ·§Æû¸¸ Ãâ·ÂµÇµµ·Ï ÇÃ·§Æû ¼Â ¼±ÅÃ
+    // ê°™ì€ ëª¨ì–‘ì˜ í”Œë«í¼ë§Œ ì¶œë ¥ë˜ë„ë¡ í”Œë«í¼ ì…‹ ì„ íƒ
     private Transform[] SetupPlatformFigure()
     {
         int index = Random.Range(0, allPlatforms.Length);
@@ -57,7 +57,7 @@ public class PlatformSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// ·¹º§¿¡ µû¶ó »ı¼ºµÇ´Â ÇÃ·§Æû ³­ÀÌµµ ¼³Á¤ Æ©ÇÃ °ª
+    /// ë ˆë²¨ì— ë”°ë¼ ìƒì„±ë˜ëŠ” í”Œë«í¼ ë‚œì´ë„ ì„¤ì • íŠœí”Œ ê°’
     /// </summary>
     private (int, int) SetupStartAndEndIndex(Transform[] platforms)
     {
@@ -70,7 +70,7 @@ public class PlatformSpawner : MonoBehaviour
         //level 20 ~ 39 : 1
         //level 40 ~ 59 : 2
         // ..
-        //Mathf.Min µÚ¿¡¿À´Â int °ª µÑÁß ´õ ÀÛÀº °ªÀ» ¹İÈ¯
+        //Mathf.Min ë’¤ì—ì˜¤ëŠ” int ê°’ ë‘˜ì¤‘ ë” ì‘ì€ ê°’ì„ ë°˜í™˜
         int startIndex = Mathf.Min((int)(level * startDuration), platforms.Length - 1);
 
         //level 0 ~ 9 : 2
@@ -83,21 +83,21 @@ public class PlatformSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇöÀç ·¹º§¿¡ »ı¼ºµÇ´Â ÇÃ·§Æû °³¼ö ¼³Á¤
+    /// í˜„ì¬ ë ˆë²¨ì— ìƒì„±ë˜ëŠ” í”Œë«í¼ ê°œìˆ˜ ì„¤ì •
     /// </summary>
     private int SetupPlatformCount()
     {
         int level = PlayerPrefs.GetInt("LEVEL");
         int baseCount = 20;
 
-        // baseCount * ((level + 10) / 10) : 10 ½ºÅ×ÀÌÁö ¸¶´Ù baseCount¿¡ ¼³Á¤µÈ °³¼öÀÎ 20°³¾¿ Áõ°¡
-        // (int)(level % 10 * 1.5f) : ¸Å ½ºÅ×ÀÌÁö¸¶´Ù 0,1,3,4,6.. °³¼ö Áõ°¡
+        // baseCount * ((level + 10) / 10) : 10 ìŠ¤í…Œì´ì§€ ë§ˆë‹¤ baseCountì— ì„¤ì •ëœ ê°œìˆ˜ì¸ 20ê°œì”© ì¦ê°€
+        // (int)(level % 10 * 1.5f) : ë§¤ ìŠ¤í…Œì´ì§€ë§ˆë‹¤ 0,1,3,4,6.. ê°œìˆ˜ ì¦ê°€
         int platformCount = baseCount * ((level + 10) / 10) + (int)(level % 10 * 1.5f);
 
         return platformCount;
     }
 
-    //ÇÃ·§ÆûÀÇ ¸ğ¾ç¿¡ µû¶ó ÃÖ´ë °³¼ö°¡ ´Ù¸£±â ¶§¹®¿¡ ¸ğ¾çº°·Î ÀúÀåÇÒ ¼ö ÀÖµµ·Ï ±¸Á¶Ã¼ Á¤ÀÇ
+    //í”Œë«í¼ì˜ ëª¨ì–‘ì— ë”°ë¼ ìµœëŒ€ ê°œìˆ˜ê°€ ë‹¤ë¥´ê¸° ë•Œë¬¸ì— ëª¨ì–‘ë³„ë¡œ ì €ì¥í•  ìˆ˜ ìˆë„ë¡ êµ¬ì¡°ì²´ ì •ì˜
     [System.Serializable]
     private struct PlatformShape
     {

@@ -23,7 +23,7 @@ public class RandomColor : MonoBehaviour
     public void ColorHSV()
     {
         Color color = Random.ColorHSV(hueMin, hueMax, saturationMin, saturationMax, valueMin, valueMax);
-        // onChanged ÀÌº¥Æ®·Î µî·Ï µÈ ¸Ş¼ÒµåµéÀ» È£ÃâÇÑ´Ù.
+        // onChanged ì´ë²¤íŠ¸ë¡œ ë“±ë¡ ëœ ë©”ì†Œë“œë“¤ì„ í˜¸ì¶œí•œë‹¤.
         onChanged?.Invoke(color);
     }
 }
