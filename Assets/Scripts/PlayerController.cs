@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Components")]
+    [SerializeField]
+    private GameController      gameController;
+
     [Header("Parameters")]
     [SerializeField]
     private float               bounceForce = 5;
@@ -38,6 +42,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!gameController.IsGamePlay) return;
+
         UpdateMouseButton();
         UpdateDropToSmash();
     }

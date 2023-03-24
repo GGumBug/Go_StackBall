@@ -6,8 +6,11 @@ public class GameController : MonoBehaviour
 {
     [SerializeField]
     private PlatformSpawner platformSpawner;
+    [SerializeField]
+    private UIController    uiController;
 
     private RandomColor     randomColor;
+    public bool             IsGamePlay { private set; get; }
 
     private void Awake()
     {
@@ -15,5 +18,27 @@ public class GameController : MonoBehaviour
 
         randomColor = GetComponent<RandomColor>();
         randomColor.ColorHSV();
+    }
+
+    private IEnumerator Start()
+    {
+        while (true)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                GameStart();
+
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    private void GameStart()
+    {
+        IsGamePlay = true;
+
+        uiController.GameStart();
     }
 }
