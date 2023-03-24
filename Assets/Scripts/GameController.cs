@@ -34,6 +34,9 @@ public class GameController : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
+        currentScore = PlayerPrefs.GetInt("CURRENTSCORE");
+        uiController.CurrentScore = currentScore;
+
         totalPlatformCount = platformSpawner.SpawnPlatforms();
 
         randomColor = GetComponent<RandomColor>();
@@ -44,7 +47,8 @@ public class GameController : MonoBehaviour
     {
         while (true)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) ||
+                PlayerPrefs.GetInt("DEACTIVATEMAIN") == 1)
             {
                 GameStart();
 
@@ -83,6 +87,8 @@ public class GameController : MonoBehaviour
         UpdateHighScore();
         uiController.GameOver(currentScore);
 
+        PlayerPrefs.SetInt("CURRENTSCORE", 0);
+
         StartCoroutine(nameof(SceneLoadToOnClick));
     }
 
@@ -97,6 +103,7 @@ public class GameController : MonoBehaviour
         UpdateHighScore();
         uiController.GameClear();
         PlayerPrefs.SetInt("LEVEL", PlayerPrefs.GetInt("LEVEL") + 1);
+        PlayerPrefs.SetInt("CURRENTSCORE", currentScore);
         StartCoroutine(nameof(SceneLoadToOnClick));
     }
 
@@ -119,5 +126,16 @@ public class GameController : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("CURRENTSCORE", 0);
+    }
+
+    [ContextMenu("Reset All PlayerPrefs")]
+    private void ResetAll()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }

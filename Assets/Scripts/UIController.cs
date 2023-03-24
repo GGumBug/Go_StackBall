@@ -40,6 +40,10 @@ public class UIController : MonoBehaviour
     {
         currentLevel.text   = (PlayerPrefs.GetInt("LEVEL")+1).ToString();
         nextLevel.text      = (PlayerPrefs.GetInt("LEVEL")+2).ToString();
+
+        //Getint기본값이 0이므로 정의하지 않았다면 0이다.
+        if (PlayerPrefs.GetInt("DEACTIVATEMAIN") == 0)  mainPanel.SetActive(true);
+        else                                            mainPanel.SetActive(false);
     }
 
     public void GameStart()
@@ -62,6 +66,13 @@ public class UIController : MonoBehaviour
         textLevelCompleted.text = $"LEVEL {(PlayerPrefs.GetInt("LEVEL") + 1)}\nCOMPLETED!";
 
         gameClearPenel.SetActive(true);
+
+        PlayerPrefs.SetInt("DEACTIVATEMAIN", 1);
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("DEACTIVATEMAIN", 0);
     }
 
     public float LevelProgressBar { set => levelProgressBar.fillAmount = value; }
