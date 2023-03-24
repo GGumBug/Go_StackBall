@@ -19,6 +19,8 @@ public class UIController : MonoBehaviour
     [Header("InGame")]
     [SerializeField]
     private Image           levelProgressBar;
+    [SerializeField]
+    private TextMeshProUGUI currentScore;
 
     private void Awake()
     {
@@ -32,4 +34,6 @@ public class UIController : MonoBehaviour
     }
 
     public float LevelProgressBar { set => levelProgressBar.fillAmount = value; }
+
+    public int CurrentScore { set => currentScore.text = value.ToString(); }
 }

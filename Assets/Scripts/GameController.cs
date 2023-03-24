@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
 
     private int             brokePlatformCount = 0;
     private int             totalPlatformCount;
+    private int             currentScore = 0;
 
     public bool             IsGamePlay { private set; get; }
 
@@ -50,5 +51,8 @@ public class GameController : MonoBehaviour
     {
         brokePlatformCount++;
         uiController.LevelProgressBar = (float)brokePlatformCount / (float)totalPlatformCount;
+
+        currentScore += addedScore;
+        uiController.CurrentScore = currentScore;
     }
 }
