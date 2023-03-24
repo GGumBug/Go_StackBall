@@ -12,10 +12,14 @@ public class GameController : MonoBehaviour
     [Header("SFX")]
     [SerializeField]
     private AudioClip       gameOverClip;
+    [SerializeField]
+    private AudioClip       gameClearClip;
 
     [Header("VFX")]
     [SerializeField]
     private GameObject      gameOverEffect;
+    [SerializeField]
+    private GameObject      gameClearEffect;
 
     private RandomColor     randomColor;
     private AudioSource     audioSource;
@@ -79,6 +83,20 @@ public class GameController : MonoBehaviour
         UpdateHighScore();
         uiController.GameOver(currentScore);
 
+        StartCoroutine(nameof(SceneLoadToOnClick));
+    }
+
+    public void GameClear()
+    {
+        IsGamePlay = false;
+
+        audioSource.clip = gameClearClip;
+        audioSource.Play();
+        gameClearEffect.SetActive(true);
+
+        UpdateHighScore();
+        uiController.GameClear();
+        PlayerPrefs.SetInt("LEVEL", PlayerPrefs.GetInt("LEVEL") + 1);
         StartCoroutine(nameof(SceneLoadToOnClick));
     }
 

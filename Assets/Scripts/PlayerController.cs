@@ -65,25 +65,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             //// Equals보다 CompareTag가 성능이 27% 좋다
-            //if (collision.gameObject.CompareTag("BreakPart"))
-            //{
-            //    var platform = collision.transform.parent.GetComponent<PlatformController>();
-
-            //    if (!platform.IsCollision)
-            //    {
-            //        platform.BreakAllParts();
-            //        PlaySound(normalBreakClip);
-
-            //        gameController.OnCollisionWithPlatform();
-            //    }
-            //}
-            //else if (collision.gameObject.CompareTag("NonBreakPart"))
-            //{
-            //    // 물리, 중력을 받지않는 설정
-            //    rigidbody.isKinematic = true;
-
-            //    Debug.Log("GameOver");
-            //}
             if (playerPowerMode.IsPowerMode)
             {
                 if (collision.gameObject.CompareTag("BreakPart") ||
@@ -107,6 +88,13 @@ public class PlayerController : MonoBehaviour
                     gameObject.SetActive(false);
                 }
             }
+
+            if (collision.gameObject.CompareTag("LastPlatform") && gameController.IsGamePlay)
+            {
+                playerPowerMode.DeactivateAll();
+
+                gameController.GameClear();
+            }
         }
     }
 
@@ -114,7 +102,7 @@ public class PlayerController : MonoBehaviour
     {
         if (rigidbody.velocity.y > 0) return;
 
-        if (isClicked) return;
+        if (isClicked && !collision.gameObject.CompareTag("LastPlatform")) return;
 
         OnJumpProcess(collision);
     }

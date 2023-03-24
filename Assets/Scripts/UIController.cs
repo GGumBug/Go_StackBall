@@ -30,6 +30,12 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textHighScore;
 
+    [Header("GameClear")]
+    [SerializeField]
+    private GameObject      gameClearPenel;
+    [SerializeField]
+    private TextMeshProUGUI textLevelCompleted;
+
     private void Awake()
     {
         currentLevel.text   = (PlayerPrefs.GetInt("LEVEL")+1).ToString();
@@ -49,6 +55,13 @@ public class UIController : MonoBehaviour
         gameOverPenel.SetActive(true);
 
         PlayerPrefs.SetInt("DEACTIVATEMAIN", 0);
+    }
+
+    public void GameClear()
+    {
+        textLevelCompleted.text = $"LEVEL {(PlayerPrefs.GetInt("LEVEL") + 1)}\nCOMPLETED!";
+
+        gameClearPenel.SetActive(true);
     }
 
     public float LevelProgressBar { set => levelProgressBar.fillAmount = value; }
