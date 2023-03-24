@@ -10,11 +10,15 @@ public class GameController : MonoBehaviour
     private UIController    uiController;
 
     private RandomColor     randomColor;
+
+    private int             brokePlatformCount = 0;
+    private int             totalPlatformCount;
+
     public bool             IsGamePlay { private set; get; }
 
     private void Awake()
     {
-        platformSpawner.SpawnPlatforms();
+        totalPlatformCount = platformSpawner.SpawnPlatforms();
 
         randomColor = GetComponent<RandomColor>();
         randomColor.ColorHSV();
@@ -40,5 +44,11 @@ public class GameController : MonoBehaviour
         IsGamePlay = true;
 
         uiController.GameStart();
+    }
+
+    public void OnCollisionWithPlatform(int addedScore=1)
+    {
+        brokePlatformCount++;
+        uiController.LevelProgressBar = (float)brokePlatformCount / (float)totalPlatformCount;
     }
 }

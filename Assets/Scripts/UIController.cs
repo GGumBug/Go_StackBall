@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class UIController : MonoBehaviour
@@ -15,6 +16,10 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private GameObject      mainPanel;
 
+    [Header("InGame")]
+    [SerializeField]
+    private Image           levelProgressBar;
+
     private void Awake()
     {
         currentLevel.text   = (PlayerPrefs.GetInt("LEVEL")+1).ToString();
@@ -25,4 +30,6 @@ public class UIController : MonoBehaviour
     {
         mainPanel.SetActive(false);
     }
+
+    public float LevelProgressBar { set => levelProgressBar.fillAmount = value; }
 }

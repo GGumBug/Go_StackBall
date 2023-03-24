@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour
                 {
                     platform.BreakAllParts();
                     PlaySound(normalBreakClip);
+
+                    gameController.OnCollisionWithPlatform();
                 }
             }
             else if (collision.gameObject.CompareTag("NonBreakPart"))
