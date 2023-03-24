@@ -7,10 +7,14 @@ public class PlayerController : MonoBehaviour
     [Header("Parameters")]
     [SerializeField]
     private float               bounceForce = 5;
+    [SerializeField]
+    private float               dropForce = -10;
 
     [Header("SFX")]
     [SerializeField]
     private AudioClip           bounceClip;
+    [SerializeField]
+    private AudioClip           normalBreakClip;
 
     [Header("VFX")]
     [SerializeField]
@@ -24,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource         audioSource;
 
     private Vector3         splashWeight = new Vector3(0, 0.22f, 0.1f);
+    private bool            isClicked = false;
 
     private void Awake()
     {
@@ -31,11 +36,41 @@ public class PlayerController : MonoBehaviour
         audioSource =       GetComponent<AudioSource>();
     }
 
+    private void Update()
+    {
+        UpdateMouseButton();
+        UpdateDropToSmash();
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (rigidbody.velocity.y > 0) return;
+        if (!isClicked)
+        {
+            if (rigidbody.velocity.y > 0) return;
 
-        OnJumpProcess(collision);
+            OnJumpProcess(collision);
+        }
+        else
+        {
+            // Equals보다 CompareTag가 성능이 27% 좋다
+            if (collision.gameObject.CompareTag("BreakPart"))
+            {
+                var platform = collision.transform.parent.GetComponent<PlatformController>();
+
+                if (!platform.IsCollision)
+                {
+                    platform.BreakAllParts();
+                    PlaySound(normalBreakClip);
+                }
+            }
+            else if (collision.gameObject.CompareTag("NonBreakPart"))
+            {
+                // 물리, 중력을 받지않는 설정
+                rigidbody.isKinematic = true;
+
+                Debug.Log("GameOver");
+            }
+        }
     }
 
     private void OnCollisionStay(Collision collision)
@@ -88,5 +123,25 @@ public class PlayerController : MonoBehaviour
         OnSplashImage(collision.transform);
 
         OnSplashParticle();
+    }
+
+    private void UpdateMouseButton()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            isClicked = true;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            isClicked = false;
+        }
+    }
+
+    private void UpdateDropToSmash()
+    {
+        if (Input.GetMouseButton(0) && isClicked)
+        {
+            rigidbody.velocity = new Vector3(0, dropForce, 0);
+        }
     }
 }
