@@ -35,13 +35,14 @@ public class PlayerController : MonoBehaviour
     {
         if (rigidbody.velocity.y > 0) return;
 
-        rigidbody.velocity = new Vector3(0, bounceForce, 0);
+        OnJumpProcess(collision);
+    }
 
-        PlaySound(bounceClip);
+    private void OnCollisionStay(Collision collision)
+    {
+        if (rigidbody.velocity.y > 0) return;
 
-        OnSplashImage(collision.transform);
-
-        OnSplashParticle();
+        OnJumpProcess(collision);
     }
 
     private void PlaySound(AudioClip clip)
@@ -76,5 +77,16 @@ public class PlayerController : MonoBehaviour
             mainModule.startColor   = playerMaterial.color;
             break;
         }
+    }
+
+    private void OnJumpProcess(Collision collision)
+    {
+        rigidbody.velocity = new Vector3(0, bounceForce, 0);
+
+        PlaySound(bounceClip);
+
+        OnSplashImage(collision.transform);
+
+        OnSplashParticle();
     }
 }
