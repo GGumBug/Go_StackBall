@@ -102,7 +102,9 @@ public class PlayerController : MonoBehaviour
                 {
                     rigidbody.isKinematic = true;
 
-                    Debug.Log("GameOver");
+                    gameController.GameOver(transform.position);
+
+                    gameObject.SetActive(false);
                 }
             }
         }

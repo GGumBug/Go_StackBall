@@ -22,6 +22,14 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI currentScore;
 
+    [Header("GameOver")]
+    [SerializeField]
+    private GameObject      gameOverPenel;
+    [SerializeField]
+    private TextMeshProUGUI textCurrentScore;
+    [SerializeField]
+    private TextMeshProUGUI textHighScore;
+
     private void Awake()
     {
         currentLevel.text   = (PlayerPrefs.GetInt("LEVEL")+1).ToString();
@@ -31,6 +39,16 @@ public class UIController : MonoBehaviour
     public void GameStart()
     {
         mainPanel.SetActive(false);
+    }
+
+    public void GameOver(int currentScore)
+    {
+        textCurrentScore.text = $"SCORE\n{ currentScore.ToString()}";
+        textHighScore.text = $"HIGHT SCORE\n{ PlayerPrefs.GetInt("HIGHSCORE")}";
+
+        gameOverPenel.SetActive(true);
+
+        PlayerPrefs.SetInt("DEACTIVATEMAIN", 0);
     }
 
     public float LevelProgressBar { set => levelProgressBar.fillAmount = value; }

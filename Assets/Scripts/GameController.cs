@@ -9,7 +9,16 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private UIController    uiController;
 
+    [Header("SFX")]
+    [SerializeField]
+    private AudioClip       gameOverClip;
+
+    [Header("VFX")]
+    [SerializeField]
+    private GameObject      gameOverEffect;
+
     private RandomColor     randomColor;
+    private AudioSource     audioSource;
 
     private int             brokePlatformCount = 0;
     private int             totalPlatformCount;
@@ -19,6 +28,8 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
+
         totalPlatformCount = platformSpawner.SpawnPlatforms();
 
         randomColor = GetComponent<RandomColor>();
@@ -54,5 +65,41 @@ public class GameController : MonoBehaviour
 
         currentScore += addedScore;
         uiController.CurrentScore = currentScore;
+    }
+
+    public void GameOver(Vector3 position)
+    {
+        IsGamePlay = false;
+
+        audioSource.clip = gameOverClip;
+        audioSource.Play();
+        gameOverEffect.transform.position = position;
+        gameOverEffect.SetActive(true);
+
+        UpdateHighScore();
+        uiController.GameOver(currentScore);
+
+        StartCoroutine(nameof(SceneLoadToOnClick));
+    }
+
+    private void UpdateHighScore()
+    {
+        if (currentScore > PlayerPrefs.GetInt("HIGHSCORE"))
+        {
+            PlayerPrefs.SetInt("HIGHSCORE", currentScore);
+        }
+    }
+
+    private IEnumerator SceneLoadToOnClick()
+    {
+        while (true)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            }
+
+            yield return null;
+        }
     }
 }
